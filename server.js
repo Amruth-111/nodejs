@@ -1,20 +1,27 @@
 
 let http = require('http');
 let express = require('express');
+let bodyParser = require('body-parser');
 
 const app=express();
 
-app.use((req,res,next)=>{
-    console.log("inside middleware1");
-    next();
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/add-products',(req, res,nexts)=>{
+    res.send('<form action="/product" method="POST"><input type="text" name="title" placeholder="name"><input type="number" name="size" placeholder="size"><button type="submit">add</button></input></form>');
+});
+
+app.post('/product',(req,res,next) => {
+    console.log(req.body);
+    res.redirect('/')
 })
 
-app.use((req,res,next)=>{
-    console.log("inside middleware2");
-    res.send('<h1>Hello world!</h1>');
-})
-
-let server=http.createServer(app);
+app.use('/',(req,res,next)=>{
+    
+    res.send('<h1>Hello Amruth</h1>')
+})  
 
 
-server.listen(5000);
+
+
+app.listen(5000);
